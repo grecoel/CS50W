@@ -1,0 +1,201 @@
+/* General styles */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+h2, .display-4 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.text-info {
+    color: #17a2b8 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.btn {
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f8d7da;
+    color: #721c24;
+    margin-bottom: 20px;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #495057;
+}
+
+.card-text b {
+    font-weight: 600;
+}
+
+.card-img {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-sm {
+    padding: 5px 15px;
+    font-size: 0.875rem;
+}
+
+.text-danger {
+    font-weight: 600;
+}
+
+.container.pb-5 {
+    padding-bottom: 50px;
+}
+
+.container.mt-n2 {
+    margin-top: -2rem;
+}
+
+.mt-n2 {
+    margin-top: -2rem;
+}
+
+.mt-md-n3 {
+    margin-top: -3rem;
+}
+
+/* Specific for forms */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+form .form-group input {
+    background-color: #f1f3f5;
+}
+
+/* Watchlist Specific */
+.card-body .card-text .text-muted {
+    font-size: 0.875rem;
+}
+
+.card-body .card-text .text-muted small {
+    font-size: 0.75rem;
+}
+
+.card-body .btn-danger {
+    font-size: 0.875rem;
+    background-color: #f04e4e;
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.card-body .btn-danger:hover {
+    background-color: #d03a3a;
+    transform: scale(1.05);
+}
+
+/* Hover Effects for Cards */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}

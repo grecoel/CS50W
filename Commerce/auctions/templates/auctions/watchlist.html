@@ -1,0 +1,52 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center display-4 mb-4">My Watchlist</h2>
+
+    {% if watchlist %}
+        {% for item in watchlist %}
+            <div class="card mb-4 shadow-sm">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <a href="{% url 'listing' item.id %}">
+                            <img
+                                src="{{ item.image_url }}"
+                                class="card-img"
+                                style="height: 100%; object-fit: cover;"
+                                alt="{{ item.title }}">
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'listing' item.id %}" class="text-dark text-decoration-none">
+                                    {{ item.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">{{ item.description|escape }}</p>
+                            <p class="card-text"><b>Author:</b> {{ item.user }}</p>
+                            <p class="card-text"><b>Category:</b> {{ item.category|default:"Not listed" }}</p>
+                            <p class="card-text"><b>Price:</b> {{ item.starting_bid|default:"Not specified" }}</p>
+                            <p class="card-text">
+                                <b>Status:</b>
+                                {% if item.winner == None %}
+                                    <span class="text-success">Available</span>
+                                {% else %}
+                                    <span class="text-danger">Lot Sold</span>
+                                {% endif %}
+                            </p>
+                            <p class="card-text"><small class="text-muted">Created on {{ item.created_at }}</small></p>
+                            <a href="{% url 'unwatch' item.id %}" class="btn btn-danger btn-sm">
+                                <i class="fa fa-heart"></i> Remove from Watchlist
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center text-muted lead">Your watchlist is currently empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

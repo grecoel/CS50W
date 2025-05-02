@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container my-4">
+    <h2 class="text-center mb-4">{{ category|title }} Listings</h2>
+    <form action="{% url 'filter' %}" class="mb-4">
+        <input type="text" class="form-control shadow-sm" name="category"
+               placeholder="Search categories again..." autofocus>
+    </form>
+    <hr>
+    {% if listings %}
+        {% for item in listings %}
+            <div class="card mb-4 shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <a href="{% url 'listing' item.id %}">
+                            <img src="{{ item.image_url }}" class="img-fluid rounded-start"
+                                 alt="{{ item.title }}" style="object-fit: cover; height: 100%; max-height: 200px;">
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'listing' item.id %}" class="text-decoration-none">
+                                {{ item.title }}</a></h5>
+                            <p class="card-text text-muted">Description: {{ item.description }}</p>
+                            <p class="card-text"><small class="text-muted">Author: {{ item.user }}</small></p>
+                            <p class="card-text">Price:
+                                <span class="{% if item.price %}text-success{% else %}text-danger{% endif %}">
+                                    {{ item.price|default:"Not specified" }}
+                                </span>
+                            </p>
+                            <p class="card-text">Status:
+                                <span class="{% if item.winner is not None %}text-danger{% else %}text-success{% endif %}">
+                                    {{ item.winner|default:"Available" }}
+                                </span>
+                            </p>
+                            <a href="{% url 'watch' item.id %}" class="btn btn-outline-danger btn-sm">
+                                <i class="{% if item in user.watchlist.all %}fa fa-heart{% else %}far fa-heart{% endif %}"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning text-center">
+            No items found in this category. Try searching for a different one.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
