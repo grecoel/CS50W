@@ -1,0 +1,81 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <div class="row mb-3">
+    <div class="col text-center">
+      <h2>{{ request.user.email }}</h2>
+    </div>
+  </div>
+
+  <div class="row mb-3 text-center">
+    <div class="col">
+      <button class="btn btn-outline-primary" id="inbox">Inbox</button>
+      <button class="btn btn-outline-primary" id="compose">Compose</button>
+      <button class="btn btn-outline-primary" id="sent">Sent</button>
+      <button class="btn btn-outline-primary" id="archived">Archived</button>
+      <a class="btn btn-outline-danger" href="{% url 'logout' %}">Log Out</a>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Emails view -->
+  <div id="emails-view" style="display: none;"></div>
+
+  <!-- Email details view -->
+  <div id="email-view" style="display: none;">
+    <div class="container">
+      <div class="row bg-light border border-primary mt-3 p-3">
+        <div class="col-md-3 font-weight-bold">
+          <p>From:</p>
+          <p>To:</p>
+          <p>Subject:</p>
+          <p>Received:</p>
+        </div>
+        <div class="col-md-9">
+          <p id="from"></p>
+          <p id="to"></p>
+          <p id="subject"></p>
+          <p id="date"></p>
+        </div>
+      </div>
+      <div class="row bg-white border border-secondary mt-2 p-3">
+        <div class="col">
+          <p id="emailBody" style="white-space: pre-wrap;">No content to display...</p>
+        </div>
+      </div>
+      <button id="replyButton" class="btn btn-primary mt-3 float-right">Reply</button>
+    </div>
+  </div>
+
+  <!-- Compose email view -->
+  <div id="compose-view" style="display: none;">
+    <h3 id="NewOrReply">New Email</h3>
+    <form id="compose-form">
+      <div class="form-group">
+        <label for="compose-from">From:</label>
+        <input disabled class="form-control" value="{{ request.user.email }}">
+      </div>
+      <div class="form-group">
+        <label for="compose-recipients">To:</label>
+        <input id="compose-recipients" class="form-control" type="email" placeholder="Enter recipient's email(s), separated by commas" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(,\s*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*" required>
+      </div>
+      <div class="form-group">
+        <label for="compose-subject">Subject:</label>
+        <input id="compose-subject" class="form-control" placeholder="Subject">
+      </div>
+      <div class="form-group">
+        <label for="compose-body">Body:</label>
+        <textarea class="form-control" id="compose-body" placeholder="Write your message here..." rows="6"></textarea>
+      </div>
+      <input type="submit" class="btn btn-primary mt-3" value="Send">
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}

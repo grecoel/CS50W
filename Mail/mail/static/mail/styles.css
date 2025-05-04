@@ -1,0 +1,146 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Button styling */
+  button {
+    margin: 5px;
+  }
+
+  button:hover {
+    background-color: #e2e6ea;
+    cursor: pointer;
+  }
+
+  /* Styling for active buttons */
+  button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
+
+  /* Input and textarea styling */
+  textarea,
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    min-height: 400px;
+    resize: vertical;
+  }
+
+  /* Button for form */
+  input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  /* Email view styling */
+  #email-view {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  #emailBody {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #ffffff;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+  /* Heading styles */
+  h2, h3 {
+    color: #343a40;
+    margin-bottom: 20px;
+  }
+
+  /* Container styling */
+  .container {
+    margin-top: 20px;
+  }
+
+  .row {
+    margin-bottom: 15px;
+  }
+
+  /* Highlight unread email row */
+  .email-row.unread {
+    background-color: #e9ecef;
+  }
+
+  /* Scrollable list of emails */
+  #emails-view {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffffff;
+  }
+
+  /* Links and hover styles */
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Reply button */
+  #replyButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  #replyButton:hover {
+    background-color: #218838;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      min-height: 300px;
+    }
+  }
