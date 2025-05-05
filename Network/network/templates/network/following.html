@@ -1,0 +1,93 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="following-container">
+    <!-- Page Title -->
+    <h1 class="text-center mb-4">Following</h1>
+
+    <!-- Posts Section -->
+    <div class="all-posts">
+        {% if posts_of_the_page %}
+            {% for post in posts_of_the_page %}
+                <div class="post shadow-sm p-3 mb-4 bg-white rounded">
+                    <h5 class="username">
+                        <a href="{% url 'profile' user_id=post.user.id %}" class="text-decoration-none">@{{ post.user }}</a>
+                    </h5>
+                    <p class="content mb-2">{{ post.content }}</p>
+                    <p class="date text-muted small mb-0">{{ post.date }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-muted">You are not following anyone or there are no posts yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Pagination Section -->
+    {% if posts_of_the_page.has_other_pages %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination d-flex justify-content-center mt-4">
+                {% if posts_of_the_page.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts_of_the_page.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in posts_of_the_page.paginator.page_range %}
+                    {% if num == posts_of_the_page.number %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if posts_of_the_page.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts_of_the_page.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+
+<!-- Inline Styling -->
+<style>
+    .following-container {
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    .post {
+        border: 1px solid #f0f0f0;
+    }
+
+    .username a {
+        color: #007bff;
+    }
+
+    .username a:hover {
+        text-decoration: underline;
+    }
+
+    .content {
+        font-size: 1rem;
+    }
+
+    .date {
+        font-size: 0.875rem;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>
+{% endblock %}

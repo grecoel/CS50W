@@ -1,0 +1,100 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header text-center">
+        <h1 class="mb-4">@{{ username }}</h1>
+        <div class="row justify-content-center mb-4">
+            <div class="col-4 text-center">
+                <h4>Followers</h4>
+                <p>{{ followers }}</p>
+            </div>
+            <div class="col-4 text-center">
+                <h4>Following</h4>
+                <p>{{ following }}</p>
+            </div>
+        </div>
+        {% if user.is_authenticated and user != user_profile %}
+            <div class="row justify-content-center">
+                {% if isFollowing %}
+                    <form action="{% url 'unfollow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ user_profile }}" name="userfollow" />
+                        <button class="btn btn-danger">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'follow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ user_profile }}" name="userfollow" />
+                        <button class="btn btn-success">Follow</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Posts Section -->
+    <div class="posts-container mt-5">
+        <h3 class="text-center mb-4">Posts</h3>
+        {% for post in posts_of_the_page %}
+            <div class="post-card shadow-sm p-4 mb-4 bg-white rounded">
+                <h5 class="username mb-2">
+                    <a href="{% url 'profile' user_id=post.user.id %}" class="text-dark">@{{ post.user }}</a>
+                </h5>
+                <p class="content mb-1">{{ post.content }}</p>
+                <small class="text-muted">{{ post.date }}</small>
+            </div>
+        {% empty %}
+            <p class="text-center text-muted">This user hasn't posted anything yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if posts_of_the_page.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ posts_of_the_page.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            {% if posts_of_the_page.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ posts_of_the_page.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 50px auto;
+    }
+
+    .profile-header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .post-card {
+        border: 1px solid #f0f0f0;
+        transition: transform 0.2s ease;
+    }
+
+    .post-card:hover {
+        transform: scale(1.02);
+    }
+
+    .pagination .page-link {
+        color: #007bff;
+    }
+
+    .pagination .page-link:hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}

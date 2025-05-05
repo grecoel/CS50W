@@ -1,0 +1,139 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    function submitHandler(id) {
+        const textareaValue = document.getElementById(`textarea_${id}`).value;
+        const content = document.getElementById(`content_${id}`);
+        const modal = document.getElementById(`modal_edit_post_${id}`);
+
+        fetch(`/edit/${id}`, {
+            method: "POST",
+            headers: { "Content-type": "application/json", "X-CSRFToken": getCookie("csrftoken") },
+            body: JSON.stringify({ content: textareaValue })
+        })
+            .then(response => response.json())
+            .then(result => {
+                // Update post content
+                content.innerHTML = result.data;
+
+                // Hide modal using Bootstrap's built-in method
+                $(`#modal_edit_post_${id}`).modal('hide');
+            })
+            .catch(error => console.error("Error editing post:", error));
+    }
+
+
+    function likeHandler(id) {
+        const btn = document.getElementById(`like-btn-${id}`);
+        const countElem = document.getElementById(`like-count-${id}`);
+        const isLiked = btn.classList.contains("fa-heart"); // Check if already liked
+
+        const url = isLiked ? `/remove_like/${id}` : `/add_like/${id}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                if (isLiked) {
+                    btn.classList.remove("fa-heart");
+                    btn.classList.add("fa-heart-o");
+                } else {
+                    btn.classList.remove("fa-heart-o");
+                    btn.classList.add("fa-heart");
+                }
+
+                // Update the counter from the backend response
+                countElem.textContent = data.like_count;
+            })
+            .catch((error) => console.error("Error updating like:", error));
+    }
+
+
+
+</script>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">All Posts</h1>
+
+    {% if user.is_authenticated %}
+    <div class="new-post bg-light p-4 rounded shadow-sm mb-4">
+        <h2 class="text-secondary">Create a New Post</h2>
+        <form action="{% url 'newPost' %}" method="post">
+            {% csrf_token %}
+            <textarea name="content" rows="4" class="form-control" placeholder="Write something interesting..."></textarea>
+            <br />
+            <button type="submit" class="btn btn-primary btn-block">Post</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="all-posts">
+        {% for post in posts_of_the_page %}
+        <div class="post border rounded shadow-sm p-3 mb-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="username text-primary mb-0">
+                    <a href="{% url 'profile' user_id=post.user.id %}" class="text-decoration-none">@{{ post.user }}</a>
+                </h5>
+                <small class="text-muted">{{ post.date }}</small>
+            </div>
+            <p class="content mt-2 mb-3" id="content_{{ post.id }}">{{ post.content }}</p>
+
+            <div class="d-flex justify-content-between align-items-center">
+                {% if user.is_authenticated %}
+                    {% if user == post.user %}
+                    <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal_edit_post_{{ post.id }}">Edit</button>
+
+                    <div class="modal fade" id="modal_edit_post_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="modal_edit_post_{{ post.id }}_label">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Post</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea rows="5" id="textarea_{{ post.id }}" class="form-control" name="content">{{ post.content }}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="submitHandler({{ post.id }})">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="like-section d-flex align-items-center">
+                        <button id="like-btn-{{ post.id }}" class="btn btn-info fa {% if post.id in liked_post_ids %}fa-heart{% else %}fa-heart-o{% endif %}" onclick="likeHandler({{ post.id }})"></button>
+                        <span id="like-count-{{ post.id }}">{{ post.likes.count }}</span>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if posts_of_the_page.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-primary" href="?page={{ posts_of_the_page.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            {% if posts_of_the_page.has_next %}
+            <li class="page-item">
+                <a class="page-link text-primary" href="?page={{ posts_of_the_page.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

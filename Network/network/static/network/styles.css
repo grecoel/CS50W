@@ -1,0 +1,21 @@
+.like-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* Adjust spacing between button and counter */
+}
+
+.like-button {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    color: #dc3545; /* Bootstrap danger color */
+    font-size: 1.2em; /* Adjust the size of the heart icons */
+}
+
+.like-count {
+    font-size: 1em; /* Match the design's font size */
+    color: #6c757d; /* Bootstrap muted text color */
+}
